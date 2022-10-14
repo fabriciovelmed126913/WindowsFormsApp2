@@ -28,7 +28,52 @@ namespace WindowsFormsApp2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (reader != null)
+            {
+                if (reader.State == SynthesizerState.Paused)
+                {
+                    reader.Resume();
+                }
+            }
+        }
 
+        private void botonSpeak_Click(object sender, EventArgs e)
+        {
+            reader.SpeakAsync(label1.Text);
+        }
+
+        private void botonStop_Click(object sender, EventArgs e)
+        {
+            if(reader!=null)
+            {
+                reader.Dispose();
+            }
+        }
+
+        private void botonBandeja_Click(object sender, EventArgs e)
+        {
+            Stream str;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if((str=openFileDialog.OpenFile())!=null)
+                {
+                    string fname = openFileDialog.FileName;
+                    string filetxt = File.ReadAllText(fname);
+                    label1.Text = filetxt;
+                }
+            }
+        }
+
+        private void botonPausa_Click(object sender, EventArgs e)
+        {
+            if (reader != null)
+            {
+                if(reader.State == SynthesizerState.Speaking)
+                {
+                    reader.Pause();
+                }
+            }
         }
     }
 }
